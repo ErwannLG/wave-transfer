@@ -31,48 +31,46 @@ class TransferController extends AbstractController
       // this condition is needed because the 'file' field is not required
       // so the PDF file must be processed only when a file is uploaded
       if ($userFile) {
-          $originalFilename = pathinfo($userFile->getClientOriginalName(), PATHINFO_FILENAME);
-          // this is needed to safely include the file name as part of the URL
-          $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-          $newFilename = $safeFilename.'-'.uniqid().'.'.$userFile->guessExtension();
+        $originalFilename = pathinfo($userFile->getClientOriginalName(), PATHINFO_FILENAME);
+        // this is needed to safely include the file name as part of the URL
+        $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$userFile->guessExtension();
 
-          // Move the file to the directory where files are stored
-          try {
-              $userFile->move(
-                  $this->getParameter('files_directory'),
-                  $newFilename
-              );
-          } catch (FileException $e) {
-              // ... handle exception if something happens during file upload
-          }
+        // Move the file to the directory where files are stored
+        try {
+            $userFile->move(
+                $this->getParameter('files_directory'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
 
-          // updates the 'userFilename' property to store the PDF file name
-          // instead of its contents
-          $transfer->setFilename($newFilename);
+        // updates the 'userFilename' property to store the PDF file name
+        // instead of its contents
+        $transfer->setFilename($newFilename);
       }
 
-      // ... persist the $transfer variable or any other work
+        // Create the message
+        $mail = (new \Swift_Message())
+          ->setSubject('Wave - Fichiers envoyés par ' . $transfer->getSender())
+          ->setFrom([$transfer->getSender()])
+          ->setTo([$transfer->getRecipient()]);
 
-      // Create the message
-      $mail = (new \Swift_Message())
-        ->setSubject('Wave - Fichiers envoyés par ' . $transfer->getSender())
-        ->setFrom([$transfer->getSender()])
-        ->setTo([$transfer->getRecipient()]);
+          $cid = $mail->embed(\Swift_Image::fromPath('images/spouting-whale.png'));
+          $mail->setBody(
+            $this->renderView('transfer/email.html.twig', [
+              'recipient' => $transfer->getRecipient(),
+              'sender' => $transfer->getSender(),
+              'link' => 'upload/files/'.$transfer->getFileName(),
+              'message' => $transfer->getMessage(),
+              'logo' => $cid
+            ]),
+            'text/html'
+          );
 
-        $cid = $mail->embed(\Swift_Image::fromPath('images/spouting-whale.png'));
-        $mail->setBody(
-          $this->renderView('transfer/email.html.twig', [
-            'recipient' => $transfer->getRecipient(),
-            'sender' => $transfer->getSender(),
-            'link' => 'zip/'.$transfer->getFileName().'.zip',
-            'message' => $transfer->getMessage(),
-            'logo' => $cid
-          ]),
-          'text/html'
-        );
-
-        $mailer->send($mail);
-    }
+          $mailer->send($mail);
+      }
 
     return $this->render('transfer/index.html.twig', [
       'form'=>$form->createView(),

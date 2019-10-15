@@ -20,7 +20,7 @@ class TransferType extends AbstractType
             // Upload your file
             ->add('file', FileType::class, [
               'label' => false,
-              'attr' => ['placeholder' => 'Your file (PDF)'],
+              'attr' => ['placeholder' => 'Your file'],
 
               // unmapped means that this field is not associated to any entity property
               'mapped' => false,
@@ -33,12 +33,7 @@ class TransferType extends AbstractType
               // in the associated entity, so you can use the PHP constraint classes
               'constraints' => [
                 new File([
-                  'maxSize' => '1024k',
-                  'mimeTypes' => [
-                    'application/pdf',
-                    'application/x-pdf',
-                  ],
-                  'mimeTypesMessage' => 'Please upload a valid PDF document',
+                  'maxSize' => '2048k',
                 ])
               ],
             ])
