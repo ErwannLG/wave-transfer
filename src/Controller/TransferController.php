@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 class TransferController extends AbstractController
 {
   /**
-  * @Route("/transfer/new", name ="transfer")
+  * @Route("/", name ="transfer")
   */
   public function new(Request $request, \Swift_Mailer $mailer){
     $transfer = new Transfer();
@@ -65,6 +65,7 @@ class TransferController extends AbstractController
             'recipient' => $transfer->getRecipient(),
             'sender' => $transfer->getSender(),
             'link' => 'zip/'.$transfer->getFileName().'.zip',
+            'message' => $transfer->getMessage(),
             'logo' => $cid
           ]),
           'text/html'

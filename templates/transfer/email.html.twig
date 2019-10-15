@@ -1,0 +1,19 @@
+<section style="background-color:#234;width:75%;margin-left:10%;border:solid 1px black;font-family:'Lato'">
+  <div style="text-align:center;padding:20px">
+    <img src="{{ logo }}" />
+  </div>
+
+  <div style="font-size:1.2rem;color:white;padding:20px;text-align:justify">
+    <p>Hello!</p>
+
+    <p style="margin-top:20px">{{ sender|capitalize }} sent you some files :</p>
+    <p style="margin-top:20px">{{ message }}</p>
+    <p style="margin:20px auto;text-align:center">
+      <a href="{{ absolute_url(link) }}">
+        <button style="font-size:1.2rem;padding:15px;border-radius: 5px;border: 1px solid #adadad;background-color:#00baec;color: white;font-weight: bold;cursor: pointer;">Download</button>
+      </a>
+    </p>
+
+    <p>Ces fichiers sont stockés au format ZIP, et resteront disponibles pendant 48 heures au téléchargement. Les fichiers sont téléchargeables de façon illimitée pendant cette période, et ce sans aucun coût.</p>
+   </div>
+</section>
