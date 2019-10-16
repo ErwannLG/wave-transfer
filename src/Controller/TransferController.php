@@ -62,7 +62,7 @@ class TransferController extends AbstractController
             $this->renderView('transfer/email.html.twig', [
               'recipient' => $transfer->getRecipient(),
               'sender' => $transfer->getSender(),
-              'link' => 'upload/files/'.$transfer->getFileName(),
+              'link' => 'uploads/files/'.$transfer->getFileName(),
               'message' => $transfer->getMessage(),
               'logo' => $cid
             ]),
