@@ -72,7 +72,7 @@ class TransferController extends AbstractController
           $mailer->send($mail);
       }
 
-    return $this->render('transfer/index.html.twig', [
+    return $this->render('transfer/success.html.twig', [
       'form'=>$form->createView(),
       'controller_name' => 'TransferController'
     ]);

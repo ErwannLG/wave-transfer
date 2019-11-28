@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}🌊 Surf the Wave !{% endblock %}
+
+{% block body %}
+  <style>
+      .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+      .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+  </style>
+
+  <div class="container">
+    <h1 class="text-center text-warning">Welcome to Wave!</h1>
+    <div class="row mt-5 p-5">
+      <div class="col-lg-4 col-12 waveform pt-5 px-2 mt-3 mb-5">
+        <div class="logo">
+          <img src="../images/spouting-whale.png" alt="wave logo">
+        </div>
+          <div class="container text-center my-5">
+            <div class="col-6 m-auto cadre">
+              <h1 class="my-3 text-success">Your file has been sent!</h1>
+              <p>You can also share the file with the following link:</p>
+              <p class="font-weight-bold">{{ absolute_url(link) }}</p>
+            </div>
+      </div>
+    </div>
+  </div>
+  <!-- Generating waves -->
+  <svg class="editorial"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 24 150 28"
+    preserveAspectRatio="none">
+  <defs>
+    <path id="gentle-wave"
+    d="M-160 44c30 0
+    58-18 88-18s
+    58 18 88 18
+    58-18 88-18
+    58 18 88 18
+    v44h-352z" />
+  </defs>
+    <g class="parallax">
+     <use xlink:href="#gentle-wave" x="50" y="0" fill="#4579e2"/>
+     <use xlink:href="#gentle-wave" x="50" y="3" fill="#3461c1"/>
+     <use xlink:href="#gentle-wave" x="50" y="6" fill="#2d55aa"/>
+    </g>
+  </svg>
+{% endblock %}
